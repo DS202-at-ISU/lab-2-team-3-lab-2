@@ -1,4 +1,5 @@
 Version: 1.0
+ProjectId: b6426323-724e-4ee7-b3aa-4a8900a39ff0
 
 RestoreWorkspace: Default
 SaveWorkspace: Default
@@ -17,3 +18,5 @@ StripTrailingWhitespace: Yes
 
 BuildType: Makefile
 MakefilePath: _source
+
+ProjectName: lab-2-team-3
