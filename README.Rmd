@@ -29,11 +29,36 @@ ames
 
 ames <- ames
 ```
+*Step 1*
+The variables contain strings, dates, and various pertinent numeric information. 
+-Parcel ID is the unique variable to identify the building that was sold.
+- Address is the address.
+- Style contains the number of stories in a housewith other relevant information.
+- Occupancy addresses the housing density.
+- Sale Date is the date the house was sold.
+- Sale Price is the main variable; it's how much the house sold for.
+- Year Built is the year each building was made.
+- Acres is the property's acreage.
+
+
+*Step 2*
+The main variable seems to be the price; most people care a lot more about the price than any other feature when purchasing a building.
+
+*Step 3*
+
 
 ```{r, message = FALSE}
   ames2 <- ames %>% filter(`Sale Price` > 10, na.rm = TRUE)
   ggplot(ames2, aes(x = `Sale Price`)) + geom_histogram() + scale_x_log10()
 ```
+
+
+*Step 4*
+Naomi will analyze the relationship between house cost and total living area.
+Brandon will analyze the relationship between house cost and year built.
+Cole will analyze the relationship between house cost and acreage.
+
+
 
 ```{r, message = FALSE}
   
