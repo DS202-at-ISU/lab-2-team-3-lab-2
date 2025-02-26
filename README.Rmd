@@ -20,7 +20,7 @@ Submit a link to your repository on Canvas (only one submission per team) to sig
 
 ```{r}
 # install.packages(classdata)
-install.packages("ggplot2")
+# install.packages("ggplot2")
 library(ggplot2)
 library(dplyr)
 
@@ -30,3 +30,11 @@ ames
 ames <- ames
 ```
 
+```{r, message = FALSE}
+  ames2 <- ames %>% filter(`Sale Price` > 10, na.rm = TRUE)
+  ggplot(ames2, aes(x = `Sale Price`)) + geom_histogram() + scale_x_log10()
+```
+
+```{r, message = FALSE}
+  
+```
