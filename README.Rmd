@@ -77,3 +77,20 @@ Brandon Merrick Step 4:
 The Year Built ranges from about 1880 to 2020 with more houses generally existing for later years.\
 There appears to only be a small effect when comparing Age to Price where the majority cluster around the same area and newer houses having more variability to both be above and below average\
 This does not seem to describe any oddities\
+
+
+
+```{r, message = FALSE}
+install.packages("ggpubr")
+library(ggpubr)
+
+amesArea <- ames %>% filter(`TotalLivingArea (sf)` > 0, `Sale Price` > 0)
+ggplot(amesArea, aes(x = `TotalLivingArea (sf)`)) + geom_histogram()
+ggplot(amesArea, aes(x = log10(`Sale Price`), y = `TotalLivingArea (sf)`)) + geom_point() + stat_cor()
+amesArea2 <- ames %>% filter(`TotalLivingArea (sf)` > 0, `Sale Price` > 171975, `Sale Price` < 338088)
+ggplot(amesArea2, aes(x = (`Sale Price`), y = `TotalLivingArea (sf)`)) + geom_point() + stat_cor()
+summary(amesArea)
+
+```
+*Step 4 Naomi Mauss*
+The minimum living area is 3 square feet, and the maximum living area is 6,007 square feet. The mean is 1,504 and the median is 1,455. A histogram shows the distribution of living area sizes skews right, with a longer tail on the right than on the left. The correlation coefficient is -0.061, which is very weak. Additionally, a negative correlation between the cost of a house and the building's square footage seems unlikely. In comparing sale price to total living area, there is an wide range of prices, even after applying a log function. Outliers could explain the unexpected correlation coefficient, so it makes sense to have another graph which considers more average variables The 1st quartile sale price is 171975, and the 3rd quartile is 338088. When considering only houses whose price is within the interquartile range, the correlation coefficient is 0.37. This makes more sense, as it is expected for a bigger house to cost more money, and there is not a weak correlation coefficient.
