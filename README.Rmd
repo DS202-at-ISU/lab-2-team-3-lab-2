@@ -81,7 +81,7 @@ This does not seem to describe any oddities\
 
 
 ```{r, message = FALSE}
-install.packages("ggpubr")
+#install.packages("ggpubr")
 library(ggpubr)
 
 amesArea <- ames %>% filter(`TotalLivingArea (sf)` > 0, `Sale Price` > 0)

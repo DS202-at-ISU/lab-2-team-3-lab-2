@@ -21,8 +21,15 @@ you are done with your submission.
 # install.packages("classdata")
 # install.packages("ggplot2")
 library(ggplot2)
+```
+
+    ## Warning: package 'ggplot2' was built under R version 4.4.2
+
+``` r
 library(dplyr)
 ```
+
+    ## Warning: package 'dplyr' was built under R version 4.4.2
 
     ## 
     ## Attaching package: 'dplyr'
@@ -87,7 +94,8 @@ more about the price than any other feature when purchasing a building.
 *Step 4* Naomi will analyze the relationship between house cost and
 total living area. Brandon will analyze the relationship between house
 cost and year built. Cole will analyze the relationship between house
-cost and acreage.
+cost and acreage. Cameron will analyze the relationship between housing
+cost and bedrooms
 
 ``` r
 ames3 <- ames2 %>% filter(`LotArea(sf)` > 10, na.rm = TRUE)
@@ -125,3 +133,137 @@ There appears to only be a small effect when comparing Age to Price
 where the majority cluster around the same area and newer houses having
 more variability to both be above and below average  
 This does not seem to describe any oddities  
+
+``` r
+#install.packages("ggpubr")
+library(ggpubr)
+```
+
+    ## Warning: package 'ggpubr' was built under R version 4.4.3
+
+``` r
+amesArea <- ames %>% filter(`TotalLivingArea (sf)` > 0, `Sale Price` > 0)
+ggplot(amesArea, aes(x = `TotalLivingArea (sf)`)) + geom_histogram()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+``` r
+ggplot(amesArea, aes(x = log10(`Sale Price`), y = `TotalLivingArea (sf)`)) + geom_point() + stat_cor()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-5-2.png)<!-- -->
+
+``` r
+amesArea2 <- ames %>% filter(`TotalLivingArea (sf)` > 0, `Sale Price` > 171975, `Sale Price` < 338088)
+ggplot(amesArea2, aes(x = (`Sale Price`), y = `TotalLivingArea (sf)`)) + geom_point() + stat_cor()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-5-3.png)<!-- -->
+
+``` r
+summary(amesArea)
+```
+
+    ##   Parcel ID           Address                        Style     
+    ##  Length:4288        Length:4288        1 Story Frame    :2498  
+    ##  Class :character   Class :character   2 Story Frame    : 980  
+    ##  Mode  :character   Mode  :character   1 1/2 Story Frame: 460  
+    ##                                        Split Level Frame: 140  
+    ##                                        Split Foyer Frame: 107  
+    ##                                        2 1/2 Story Frame:  57  
+    ##                                        (Other)          :  46  
+    ##                           Occupancy      Sale Date            Sale Price      
+    ##  Condominium                   : 572   Min.   :2017-07-03   Min.   :       1  
+    ##  Single-Family / Owner Occupied:3117   1st Qu.:2019-04-16   1st Qu.:  171975  
+    ##  Townhouse                     : 430   Median :2020-10-14   Median :  234550  
+    ##  Two-Family Conversion         :  76   Mean   :2020-06-29   Mean   : 1608420  
+    ##  Two-Family Duplex             :  93   3rd Qu.:2021-11-05   3rd Qu.:  338088  
+    ##                                        Max.   :2022-08-31   Max.   :20500000  
+    ##                                                                               
+    ##   Multi Sale          YearBuilt        Acres        TotalLivingArea (sf)
+    ##  Length:4288        Min.   :1880   Min.   :0.0000   Min.   :   3        
+    ##  Class :character   1st Qu.:1957   1st Qu.:0.1380   1st Qu.:1108        
+    ##  Mode  :character   Median :1986   Median :0.2120   Median :1455        
+    ##                     Mean   :1979   Mean   :0.2376   Mean   :1504        
+    ##                     3rd Qu.:2004   3rd Qu.:0.2680   3rd Qu.:1757        
+    ##                     Max.   :2022   Max.   :4.6500   Max.   :6007        
+    ##                                    NA's   :2                            
+    ##     Bedrooms      FinishedBsmtArea (sf)  LotArea(sf)          AC           
+    ##  Min.   : 0.000   Min.   :  16.0        Min.   :     0   Length:4288       
+    ##  1st Qu.: 3.000   1st Qu.: 480.0        1st Qu.:  6000   Class :character  
+    ##  Median : 3.000   Median : 724.5        Median :  9240   Mode  :character  
+    ##  Mean   : 3.318   Mean   : 766.0        Mean   : 10348                     
+    ##  3rd Qu.: 4.000   3rd Qu.:1000.0        3rd Qu.: 11677                     
+    ##  Max.   :10.000   Max.   :2537.0        Max.   :202554                     
+    ##                   NA's   :1548          NA's   :2                          
+    ##   FirePlace                            Neighborhood 
+    ##  Length:4288        (27) Res: N Ames         : 508  
+    ##  Class :character   (37) Res: College Creek  : 502  
+    ##  Mode  :character   (57) Res: Investor Owned : 417  
+    ##                     (29) Res: Old Town       : 285  
+    ##                     (34) Res: Edwards        : 276  
+    ##                     (19) Res: North Ridge Hei: 215  
+    ##                     (Other)                  :2085
+
+*Step 4 Naomi Mauss* The minimum living area is 3 square feet, and the
+maximum living area is 6,007 square feet. The mean is 1,504 and the
+median is 1,455. A histogram shows the distribution of living area sizes
+skews right, with a longer tail on the right than on the left. The
+correlation coefficient is -0.061, which is very weak. Additionally, a
+negative correlation between the cost of a house and the building’s
+square footage seems unlikely. In comparing sale price to total living
+area, there is an wide range of prices, even after applying a log
+function. Outliers could explain the unexpected correlation coefficient,
+so it makes sense to have another graph which considers more average
+variables The 1st quartile sale price is 171975, and the 3rd quartile is
+338088. When considering only houses whose price is within the
+interquartile range, the correlation coefficient is 0.37. This makes
+more sense, as it is expected for a bigger house to cost more money, and
+there is not a weak correlation coefficient.
+
+*Step 4 Cameron Kraklio* The minimum number of bedrooms is zero,
+possibly a data error or apartment. The max is 10 with a median of 3. As
+partial bedrooms wouldn’t make sense the mean isn’t as helpful in this
+case, although it being higher than the median helps to show how the
+data is skewed right.Homes with more than 5 bedrooms were rare with 10
+bedrooms being an outlier. Also interestingly nough more bedrooms didn’t
+always indicate a higher price as some outlier high sale price homes had
+a relativly low bedroom count
+
+``` r
+range(ames$Bedrooms, na.rm = TRUE)
+```
+
+    ## [1]  0 10
+
+``` r
+range(ames$`Sale Price`, na.rm = TRUE)
+```
+
+    ## [1]        0 20500000
+
+``` r
+summary(ames$Bedrooms)
+```
+
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+    ##   0.000   3.000   3.000   3.299   4.000  10.000     447
+
+``` r
+ggplot(ames, aes(x = `Bedrooms`, y = `Sale Price`)) + geom_point()
+```
+
+    ## Warning: Removed 447 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+``` r
+ggplot(ames, aes(x = `Bedrooms`)) + geom_histogram()
+```
+
+    ## Warning: Removed 447 rows containing non-finite outside the scale range
+    ## (`stat_bin()`).
+
+![](README_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
